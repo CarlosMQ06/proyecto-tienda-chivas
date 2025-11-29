@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tienda Deportiva Chivas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background:#f5f5f5;
+      color:#222;
+      margin:0;
+      padding:0;
+    }
+    header {
+      background:#800000;
+      color:#fff;
+      padding:12px 20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    header a {
+      color:#fff;
+      text-decoration:none;
+      font-size:14px;
+    }
+    main {
+      padding:20px;
+      max-width:900px;
+      margin:0 auto;
+    }
+    h1,h2,h3 {
+      color:#800000;
+      text-align:center;
+    }
+    .auth-forms {
+      display:flex;
+      flex-wrap:wrap;
+      gap:20px;
+      justify-content:center;
+      margin-top:20px;
+    }
+    form {
+      background:#fff;
+      border-radius:10px;
+      padding:15px 20px;
+      box-shadow:0 0 8px rgba(0,0,0,0.1);
+      min-width:260px;
+    }
+    form h3 {
+      margin-top:0;
+      color:#333;
+    }
+    label {
+      display:block;
+      font-size:14px;
+      margin-top:8px;
+    }
+    input, select {
+      width:100%;
+      padding:7px;
+      margin-top:4px;
+      border-radius:6px;
+      border:1px solid #ccc;
+      box-sizing:border-box;
+    }
+    button {
+      margin-top:10px;
+      padding:8px 12px;
+      border-radius:6px;
+      border:none;
+      cursor:pointer;
+      background:#800000;
+      color:#fff;
+      font-weight:bold;
+    }
+    button:hover {
+      background:#a00000;
+    }
+    #auth-msg {
+      text-align:center;
+      margin-top:10px;
+      font-weight:bold;
+    }
+    #store-section {
+      background:#fff;
+      border-radius:10px;
+      padding:20px;
+      box-shadow:0 0 8px rgba(0,0,0,0.1);
+      margin-top:20px;
+    }
+    #user-info {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-bottom:15px;
+    }
+    #user-info span {
+      font-weight:bold;
+    }
+    #btn-logout {
+      width:auto;
+    }
+    #admin-panel {
+      border-top:1px solid #ddd;
+      margin-top:15px;
+      padding-top:15px;
+    }
+    .productos-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:15px;
+      margin-top:15px;
+    }
+    .producto {
+      border:1px solid #eee;
+      border-radius:8px;
+      padding:10px;
+      text-align:center;
+      background:#fafafa;
+    }
+    .producto h4 {
+      margin:5px 0;
+      color:#333;
+    }
+    .producto p {
+      margin:3px 0;
+      font-size:14px;
+    }
+    .producto img {
+      max-width:100%;
+      max-height:120px;
+      object-fit:cover;
+      border-radius:6px;
+      margin-bottom:6px;
+    }
+    .tag-admin {
+      background:#ffd700;
+      padding:2px 6px;
+      border-radius:4px;
+      font-size:12px;
+      margin-left:4px;
+    }
+    .btn-accion-peq {
+      font-size:12px;
+      padding:4px 6px;
+      margin:2px;
+    }
+    hr {
+      margin:20px 0;
+      border:none;
+      border-top:1px solid #ddd;
+    }
+    #carrito-lista div {
+      margin-bottom:4px;
+      font-size:14px;
+    }
+    #carrito-total {
+      margin-top:8px;
+      font-weight:bold;
+    }
+    #ticket-texto {
+      background:#f7f7f7;
+      border-radius:8px;
+      padding:10px;
+      margin-top:10px;
+      font-size:13px;
+      border:1px dashed #ccc;
+      white-space:pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <strong>Tienda Deportiva Chivas</strong><br>
+      <small>Jerseys, chamarras y balones</small>
+    </div>
+    <a href="index.html">⬅ Regresar al sitio principal</a>
+  </header>
+
+  <main>
+    <h1>Acceso a la tienda</h1>
+
+    <!-- SECCIÓN LOGIN/REGISTRO -->
+    <section id="auth-section">
+      <p style="text-align:center;">
+        Inicia sesión como <b>usuario</b> o <b>administrador</b> para entrar a la tienda.
+      </p>
+
+      <div class="auth-forms">
+        <!-- REGISTRO -->
+        <form id="form-registro">
+          <h3>Registro</h3>
+
+          <label for="reg-email">Correo</label>
+          <input type="email" id="reg-email" required placeholder="ejemplo@correo.com">
+
+          <label for="reg-pass">Contraseña</label>
+          <input type="password" id="reg-pass" required minlength="6" placeholder="Mínimo 6 caracteres">
+
+          <label for="reg-rol">Rol</label>
+          <select id="reg-rol">
+            <option value="usuario">Usuario</option>
+            <option value="admin">Administrador</option>
+          </select>
+
+          <button type="submit">Crear cuenta</button>
+        </form>
+
+        <!-- LOGIN -->
+        <form id="form-login">
+          <h3>Iniciar sesión</h3>
+
+          <label for="login-email">Correo</label>
+          <input type="email" id="login-email" required>
+
+          <label for="login-pass">Contraseña</label>
+          <input type="password" id="login-pass" required>
+
+          <button type="submit">Entrar</button>
+        </form>
+      </div>
+
+      <p id="auth-msg"></p>
+    </section>
+
+    <!-- SECCIÓN TIENDA -->
+    <section id="store-section" style="display:none;">
+      <div id="user-info">
+        <div>
+          Bienvenido: <span id="user-email"></span>
+          <span class="tag-admin" id="user-rol"></span>
+        </div>
+        <button id="btn-logout">Cerrar sesión</button>
+      </div>
+
+      <h2>Tienda Deportiva Chivas</h2>
+      <p style="text-align:center;">
+        Aquí puedes ver productos deportivos inspirados en las Chivas.
+      </p>
+
+      <!-- PANEL SOLO PARA ADMIN -->
+      <div id="admin-panel" style="display:none;">
+        <h3>Panel de administrador: agregar producto</h3>
+        <form id="form-producto">
+          <label>Nombre del producto</label>
+          <input type="text" id="prod-nombre" required placeholder="Jersey Chivas Local 24/25">
+
+          <label>Deporte</label>
+          <input type="text" id="prod-deporte" required placeholder="Fútbol">
+
+          <label>Precio (MXN)</label>
+          <input type="number" id="prod-precio" required min="1" step="0.01" placeholder="1299">
+
+          <label>URL de la imagen (opcional)</label>
+          <input type="text" id="prod-imagen" placeholder="https://...">
+
+          <button type="submit">Guardar producto</button>
+        </form>
+      </div>
+
+      <hr>
+
+      <h3>Productos disponibles</h3>
+      <div id="productos-lista" class="productos-grid">
+        <!-- Aquí se dibujan los productos desde Firestore -->
+      </div>
+
+      <hr>
+
+      <!-- CARRITO DE COMPRAS -->
+      <h3>Carrito de compras</h3>
+      <div id="carrito-lista">No hay productos en el carrito.</div>
+      <p id="carrito-total"></p>
+      <button id="btn-vaciar-carrito" class="btn-accion-peq">Vaciar carrito</button>
+      <button id="btn-ir-pago" class="btn-accion-peq">Ir al pago</button>
+
+      <pre id="ticket-texto"></pre>
+
+      <!-- SECCIÓN DE PAGO CON PAYPAL -->
+      <div id="pago-section" style="margin-top:15px; display:none;">
+        <h3>Pagar con PayPal</h3>
+        <p id="pago-resumen"></p>
+        <div id="paypal-button-container"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- SDK de PayPal: reemplaza "test" por tu client-id de sandbox si tienes uno -->
+  <script src="https://www.paypal.com/sdk/js?client-id=test&currency=MXN"></script>
+
+  <!-- FIREBASE (MÓDULOS) -->
+  <script type="module">
+    // 1. Importar Firebase desde CDN (versión modular)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      onSnapshot,
+      doc,
+      setDoc,
+      getDoc,
+      serverTimestamp,
+      updateDoc,
+      deleteDoc
+    } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+    // 2. Configuración de tu proyecto Firebase
+    // ⚠️ IMPORTANTE: pega aquí el MISMO firebaseConfig que ya te funciona
+    const firebaseConfig = {
+     apiKey: "AIzaSyCINKTgR9cdhWIZVVVwylKfQKcF7k3XNgU",
+    authDomain: "proyectoweb-f3244.firebaseapp.com",
+    projectId: "proyectoweb-f3244",
+    storageBucket: "proyectoweb-f3244.firebasestorage.app",
+    messagingSenderId: "301683937334",
+    appId: "1:301683937334:web:b650ec57c0b4c5ad3ec897"
+    };
+
+
+    // 3. Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // 4. Referencias al DOM
+    const authSection = document.getElementById("auth-section");
+    const storeSection = document.getElementById("store-section");
+    const authMsg = document.getElementById("auth-msg");
+    const userEmailSpan = document.getElementById("user-email");
+    const userRolSpan = document.getElementById("user-rol");
+    const adminPanel = document.getElementById("admin-panel");
+    const productosLista = document.getElementById("productos-lista");
+
+    const carritoLista = document.getElementById("carrito-lista");
+    const carritoTotal = document.getElementById("carrito-total");
+    const btnVaciarCarrito = document.getElementById("btn-vaciar-carrito");
+    const btnIrPago = document.getElementById("btn-ir-pago");
+    const ticketTexto = document.getElementById("ticket-texto");
+    const pagoSection = document.getElementById("pago-section");
+    const pagoResumen = document.getElementById("pago-resumen");
+
+    // Formularios
+    const formRegistro = document.getElementById("form-registro");
+    const formLogin = document.getElementById("form-login");
+    const formProducto = document.getElementById("form-producto");
+    const btnLogout = document.getElementById("btn-logout");
+
+    // Estado global
+    let rolGlobal = "usuario";
+    let carrito = [];
+    let totalCarrito = 0;
+
+    // 5. Registro
+    formRegistro.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      authMsg.textContent = "";
+
+      const email = document.getElementById("reg-email").value;
+      const pass = document.getElementById("reg-pass").value;
+      const rol = document.getElementById("reg-rol").value;
+
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, email, pass);
+        const uid = cred.user.uid;
+
+        // Guardar rol en Firestore
+        await setDoc(doc(db, "usuarios", uid), {
+          email,
+          rol,
+          creado: serverTimestamp()
+        });
+
+        authMsg.style.color = "green";
+        authMsg.textContent = "Cuenta creada correctamente. Ya puedes iniciar sesión.";
+        formRegistro.reset();
+      } catch (error) {
+        authMsg.style.color = "red";
+        authMsg.textContent = error.message;
+      }
+    });
+
+    // 6. Login
+    formLogin.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      authMsg.textContent = "";
+
+      const email = document.getElementById("login-email").value;
+      const pass = document.getElementById("login-pass").value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, pass);
+        formLogin.reset();
+      } catch (error) {
+        authMsg.style.color = "red";
+        authMsg.textContent = "Error al iniciar sesión: " + error.message;
+      }
+    });
+
+    // 7. Escuchar cambios de sesión
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        // Ocultar login, mostrar tienda
+        authSection.style.display = "none";
+        storeSection.style.display = "block";
+
+        userEmailSpan.textContent = user.email || "";
+
+        // Consultar rol en Firestore
+        let rol = "usuario";
+        try {
+          const docRef = doc(db, "usuarios", user.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            rol = docSnap.data().rol || "usuario";
+          }
+        } catch (e) {
+          console.error(e);
+        }
+
+        rolGlobal = rol;
+
+        userRolSpan.textContent = rol === "admin" ? "Administrador" : "Usuario";
+        userRolSpan.style.background = rol === "admin" ? "#ffd700" : "#ddd";
+
+        // Mostrar u ocultar panel admin
+        adminPanel.style.display = (rol === "admin") ? "block" : "none";
+
+        // Escuchar productos
+        escucharProductos();
+      } else {
+        // Usuario salió
+        authSection.style.display = "block";
+        storeSection.style.display = "none";
+        productosLista.innerHTML = "";
+        carrito = [];
+        totalCarrito = 0;
+        renderCarrito();
+        ticketTexto.textContent = "";
+        pagoSection.style.display = "none";
+        document.getElementById("paypal-button-container").innerHTML = "";
+        pagoResumen.textContent = "";
+      }
+    });
+
+    // 8. Logout
+    btnLogout.addEventListener("click", async () => {
+      await signOut(auth);
+    });
+
+    // 9. Guardar producto (solo admin)
+    formProducto.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const nombre = document.getElementById("prod-nombre").value;
+      const deporte = document.getElementById("prod-deporte").value;
+      const precio = parseFloat(document.getElementById("prod-precio").value);
+      const imagen = document.getElementById("prod-imagen").value;
+
+      try {
+        await addDoc(collection(db, "productos"), {
+          nombre,
+          deporte,
+          precio,
+          imagen,
+          creado: serverTimestamp()
+        });
+        formProducto.reset();
+        alert("Producto guardado correctamente ✅");
+      } catch (error) {
+        alert("Error al guardar producto: " + error.message);
+      }
+    });
+
+    // 10. Escuchar productos en tiempo real (READ + botones)
+    function escucharProductos() {
+      onSnapshot(collection(db, "productos"), (snapshot) => {
+        productosLista.innerHTML = "";
+        snapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          const div = document.createElement("div");
+          div.className = "producto";
+          div.innerHTML = `
+            ${data.imagen ? `<img src="${data.imagen}" alt="${data.nombre}">` : ""}
+            <h4>${data.nombre || "Sin nombre"}</h4>
+            <p>Deporte: ${data.deporte || "-"}</p>
+            <p><b>Precio: $${data.precio || 0} MXN</b></p>
+            <button type="button" class="btn-accion-peq btn-add-carrito">
+              Agregar al carrito
+            </button>
+            ${
+              rolGlobal === "admin"
+                ? `
+                  <button type="button" class="btn-accion-peq btn-editar">
+                    Editar
+                  </button>
+                  <button type="button" class="btn-accion-peq btn-eliminar">
+                    Eliminar
+                  </button>
+                `
+                : ""
+            }
+          `;
+          productosLista.appendChild(div);
+
+          // Evento: agregar al carrito (USUARIOS + ADMIN)
+          const btnAdd = div.querySelector(".btn-add-carrito");
+          btnAdd.addEventListener("click", () => {
+            agregarAlCarrito(docSnap.id, data);
+          });
+
+          // Eventos de CRUD solo para admin
+          if (rolGlobal === "admin") {
+            const btnEdit = div.querySelector(".btn-editar");
+            const btnDel = div.querySelector(".btn-eliminar");
+
+            btnEdit.addEventListener("click", async () => {
+              const nuevoNombre = prompt("Nuevo nombre:", data.nombre);
+              if (nuevoNombre === null) return;
+              const nuevoPrecioStr = prompt("Nuevo precio (MXN):", data.precio);
+              if (nuevoPrecioStr === null) return;
+              const nuevoPrecio = parseFloat(nuevoPrecioStr);
+              if (isNaN(nuevoPrecio)) {
+                alert("Precio no válido.");
+                return;
+              }
+              try {
+                await updateDoc(doc(db, "productos", docSnap.id), {
+                  nombre: nuevoNombre,
+                  precio: nuevoPrecio
+                });
+              } catch (err) {
+                alert("Error al actualizar producto: " + err.message);
+              }
+            });
+
+            btnDel.addEventListener("click", async () => {
+              if (!confirm("¿Eliminar este producto?")) return;
+              try {
+                await deleteDoc(doc(db, "productos", docSnap.id));
+              } catch (err) {
+                alert("Error al eliminar producto: " + err.message);
+              }
+            });
+          }
+        });
+      });
+    }
+
+    // 11. Lógica del carrito
+    function agregarAlCarrito(idProd, data) {
+      carrito.push({
+        id: idProd,
+        nombre: data.nombre || "Producto",
+        precio: Number(data.precio) || 0
+      });
+      renderCarrito();
+    }
+
+    function renderCarrito() {
+      if (carrito.length === 0) {
+        carritoLista.textContent = "No hay productos en el carrito.";
+        carritoTotal.textContent = "";
+        totalCarrito = 0;
+        return;
+      }
+
+      carritoLista.innerHTML = "";
+      let total = 0;
+
+      carrito.forEach((item, index) => {
+        total += item.precio;
+        const row = document.createElement("div");
+        row.textContent = `${index + 1}. ${item.nombre} - $${item.precio.toFixed(2)} MXN`;
+        carritoLista.appendChild(row);
+      });
+
+      totalCarrito = total;
+      carritoTotal.textContent = `Total: $${total.toFixed(2)} MXN`;
+    }
+
+    btnVaciarCarrito.addEventListener("click", () => {
+      carrito = [];
+      totalCarrito = 0;
+      renderCarrito();
+      ticketTexto.textContent = "";
+      pagoSection.style.display = "none";
+      document.getElementById("paypal-button-container").innerHTML = "";
+      pagoResumen.textContent = "";
+    });
+
+    // Generar ticket de compra (texto)
+    function generarTicket() {
+      let texto = "Ticket de compra - Tienda Deportiva Chivas\n";
+      texto += "------------------------------------------\n";
+      texto += "Fecha: " + new Date().toLocaleString() + "\n\n";
+      texto += "Productos:\n";
+
+      carrito.forEach((item, index) => {
+        texto += `${index + 1}. ${item.nombre} - $${item.precio.toFixed(2)} MXN\n`;
+      });
+
+      texto += "\nTotal a pagar: $" + totalCarrito.toFixed(2) + " MXN\n";
+      texto += "\nGracias por tu compra. ¡Arriba las Chivas! ⚽";
+
+      ticketTexto.textContent = texto;
+    }
+
+    // Inicializar botones de PayPal con el total del carrito
+    function inicializarPaypal(total) {
+      const cont = document.getElementById("paypal-button-container");
+      cont.innerHTML = "";
+
+      if (!window.paypal) {
+        alert("El SDK de PayPal no se cargó correctamente.");
+        return;
+      }
+
+      window.paypal.Buttons({
+        createOrder: (data, actions) => {
+          return actions.order.create({
+            purchase_units: [{
+              amount: { value: total.toFixed(2) }
+            }]
+          });
+        },
+        onApprove: (data, actions) => {
+          return actions.order.capture().then((details) => {
+            alert("✅ Pago completado por " + (details.payer.name?.given_name || "cliente"));
+          });
+        },
+        onError: (err) => {
+          console.error(err);
+          alert("Ocurrió un error al procesar el pago.");
+        }
+      }).render("#paypal-button-container");
+    }
+
+    // Botón: Ir al pago
+    btnIrPago.addEventListener("click", () => {
+      if (carrito.length === 0) {
+        alert("El carrito está vacío.");
+        return;
+      }
+      generarTicket();
+      pagoSection.style.display = "block";
+      pagoResumen.textContent = `Total a pagar: $${totalCarrito.toFixed(2)} MXN (Pago con PayPal)`;
+      inicializarPaypal(totalCarrito);
+    });
+  </script>
+
+</body>
+</html>

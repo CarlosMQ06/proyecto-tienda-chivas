@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sitio Web con APIs Integradas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Login -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+  <style>
+    body { font-family: Arial, sans-serif; background:#fff; color:#222; margin:20px; text-align:center; }
+    h1,h2,h3 { color:#c00; }
+    section { margin-bottom:40px; }
+    #map { height:400px; width:100%; border:4px solid #0033a0; border-radius:10px; margin-top:20px; }
+    .descripcion { margin-top:15px; padding:15px; background:linear-gradient(90deg,#c00,#fff,#0033a0); color:#000; border-radius:10px; font-size:16px;}
+    .paypal-container { display:flex; align-items:center; justify-content:space-between; max-width:400px; margin:0 auto; text-align:left; margin-top:10px;}
+    #paypal-button-container { transform:scale(0.8); transform-origin:right top; }
+    img { border-radius:50%; margin-top:10px; }
+    iframe { border-radius:10px; box-shadow:0 0 10px #ccc; }
+    .api-data { background:#f0f0f0; border-radius:10px; padding:15px; margin-top:20px; display:inline-block; }
+    .form-whatsapp { margin-top:12px; }
+    .form-whatsapp input { padding:8px; margin:6px; border-radius:6px; width:220px; }
+    .form-whatsapp button { padding:8px 12px; border-radius:6px; cursor:pointer; }
+    #resultado { margin-top:8px; font-weight:600; }
+  </style>
+</head>
+<body>
+<body>
+
+  <header style="
+    background:#800000;
+    color:#fff;
+    padding:10px 16px;
+    border-radius:10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+  ">
+    <div>
+      <strong>Tienda Chivas Online</strong><br>
+      <small>APIs + Firebase + Tienda deportiva</small>
+    </div>
+    <!-- BOTÓN PARA IR A LA TIENDA -->
+    <a href="tienda.html" target="_blank" style="
+      background:#fff;
+      color:#800000;
+      padding:10px 18px;
+      border-radius:20px;
+      text-decoration:none;
+      font-weight:bold;
+    ">
+      Ir a tienda ⚽
+    </a>
+  </header>
+
+  <h1>Proyecto de APIs Integradas</h1>
+  <!-- aquí sigue TODO tu código tal como ya lo tienes -->
+
+  <h1>Proyecto de APIs Integradas</h1>
+
+  <!-- LOGIN GOOGLE -->
+  <section id="login">
+    <h2>Iniciar sesión con Google</h2>
+    <div id="g_id_onload"
+         data-client_id="957981411563-7002lradgg7ivlm5krfk4sftevop1dul.apps.googleusercontent.com"
+         data-context="signin"
+         data-ux_mode="popup"
+         data-callback="handleCredentialResponse">
+    </div>
+    <div class="g_id_signin" data-type="standard"></div>
+
+    <p>Comparte este sitio:
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://tu-sitio.com" target="_blank">📘 Facebook</a> |
+      <a href="https://twitter.com/intent/tweet?text=Visita%20este%20sitio%20incre%C3%ADble!%20https://tu-sitio.com" target="_blank">🐦 X</a>
+    </p>
+  </section>
+
+  <script>
+    function handleCredentialResponse(response) {
+      const data = parseJwt(response.credential);
+      document.getElementById("login").innerHTML += `
+        <p>Bienvenido, <b>${data.name}</b></p>
+        <img src="${data.picture}" width="100" alt="Foto de perfil">
+      `;
+    }
+    function parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      return JSON.parse(window.atob(base64));
+    }
+  </script>
+
+  <!-- MAPA + GEOLOCALIZACIÓN -->
+  <section>
+    <h3>Mapa del Estadio Akron y tu ubicación</h3>
+    <div id="map"></div>
+    <div class="descripcion">
+      <p><b>Estadio Akron:</b> Casa del Club Deportivo Guadalajara (Chivas). Inaugurado en 2010, con capacidad para 48,000 espectadores.</p>
+    </div>
+  </section>
+
+  <!-- E-COMMERCE -->
+  <section>
+    <h3>Compra tus boletos</h3>
+    <div class="paypal-container">
+      <p><b>Precio:</b> $200.00 MXN</p>
+      <div id="paypal-button-container"></div>
+    </div>
+  </section>
+
+  <!-- API (clima) -->
+  <section>
+    <h3>Consulta en tiempo real (API)</h3>
+    <div id="api-info" class="api-data">Cargando información...</div>
+  </section>
+
+  <!-- STREAMING (video que pediste) -->
+  <section>
+    <h3>Transmisión en vivo del Estadio Akron</h3>
+    <iframe width="560" height="315"
+            src="https://www.youtube.com/embed/hYFqhT2JSOo"
+            title="Transmisión en vivo del Estadio Akron"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+  </section>
+
+  <!-- SCRIPTS EXTERNOS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=test&currency=MXN"></script>
+
+  <script>
+    // MAPA
+    const ubicacion = [20.6736, -103.4621];
+    const map = L.map('map').setView(ubicacion, 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+    L.marker(ubicacion).addTo(map).bindPopup("<b>Estadio Akron</b>").openPopup();
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        const userLoc = [position.coords.latitude, position.coords.longitude];
+        L.marker(userLoc).addTo(map).bindPopup("📍 Tu ubicación actual").openPopup();
+        // Opcional: centrar en tu ubicación
+        // map.setView(userLoc, 13);
+      });
+    }
+
+    // PAYPAL (sandbox)
+    paypal.Buttons({
+      createOrder: function(data, actions) {
+        return actions.order.create({ purchase_units: [{ amount: { value: '200.00' } }] });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          alert('✅ Pago completado por ' + (details.payer.name?.given_name || 'cliente'));
+        });
+      }
+    }).render('#paypal-button-container');
+
+    // API Clima (Open-Meteo)
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=20.6736&longitude=-103.4621&current_weather=true')
+      .then(r => r.json())
+      .then(data => {
+        const temp = data.current_weather.temperature;
+        const wind = data.current_weather.windspeed;
+        document.getElementById("api-info").innerHTML =
+          `🌤️ <b>Temperatura actual en Guadalajara:</b> ${temp}°C <br>💨 Viento: ${wind} km/h`;
+      })
+      .catch(() => {
+        document.getElementById("api-info").innerText = "⚠️ No se pudo cargar la información.";
+      });
+
+
+  </script>
+
+</body>
+</html>
+
